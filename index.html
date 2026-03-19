@@ -791,16 +791,50 @@ window.addEventListener('load', function(){
 // ================================================================
 // FORM
 // ================================================================
-function doSend(){
+async function doSend(){
   var fn=document.getElementById('fn').value.trim();
+  var ln=document.getElementById('ln').value.trim();
   var em=document.getElementById('em').value.trim();
   var ph=document.getElementById('ph').value.trim();
+  var bz=document.getElementById('bz').value.trim();
+  var sv=document.getElementById('sv').value;
+  var mg=document.getElementById('mg').value.trim();
+
   if(!fn){alert('Please enter your name.');return;}
   if(!em||em.indexOf('@')<0){alert('Please enter a valid email.');return;}
   if(!ph){alert('Please enter your WhatsApp number.');return;}
-  document.getElementById('fok').style.display='block';
+
   var b=document.querySelector('.fsub');
-  b.textContent='Sent!'; b.disabled=true; b.style.opacity='.6';
+  b.textContent='Sending...'; b.disabled=true;
+
+  try {
+    var res = await fetch('https://api.web3forms.com/submit', {
+      method:'POST',
+      headers:{'Content-Type':'application/json','Accept':'application/json'},
+      body: JSON.stringify({
+        access_key: '02253005-8d34-493d-814a-e7730ec3d690',
+        subject: 'New LeadForge Enquiry from ' + fn,
+        from_name: fn + ' ' + ln,
+        email: em,
+        phone: ph,
+        business: bz || 'Not provided',
+        service: sv || 'Not specified',
+        message: mg || 'No message',
+        botcheck: ''
+      })
+    });
+    var data = await res.json();
+    if(data.success){
+      document.getElementById('fok').style.display='block';
+      b.textContent='✅ Sent!'; b.style.opacity='.6';
+    } else {
+      alert('Something went wrong. Please try again.');
+      b.textContent='Send Message →'; b.disabled=false;
+    }
+  } catch(e){
+    alert('Network error. Please try again.');
+    b.textContent='Send Message →'; b.disabled=false;
+  }
 }
 </script>
 </body>
