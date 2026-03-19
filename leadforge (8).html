@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LeadForge — Websites, WhatsApp & AI Chatbots</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:#0a0a0a;--bg2:#0f0f0f;--bg3:#141414;
+  --card:#111111;--card2:#181818;
+  --orange:#F97316;--orange2:#FB923C;
+  --white:#FFFFFF;--gray:#9CA3AF;--gray2:#6B7280;
+  --border:rgba(249,115,22,0.15);--border2:rgba(255,255,255,0.07);
+  --glow:rgba(249,115,22,0.5);
+  --font:"Poppins",sans-serif;
+}
+html{scroll-behavior:smooth;overflow-x:hidden;}
+body{background:var(--bg);color:var(--white);font-family:var(--font);overflow-x:hidden;cursor:none;}
+
+/* ── CURSOR ── */
+#dot{
+  position:fixed;top:0;left:0;
+  width:12px;height:12px;
+  background:var(--orange);
+  border-radius:50%;
+  pointer-events:none;
+  z-index:99999;
+  transition:transform .12s,background .12s;
+  box-shadow:0 0 14px var(--orange),0 0 28px rgba(249,115,22,.5);
+}
+#ring{
+  position:fixed;top:0;left:0;
+  width:38px;height:38px;
+  border:1.5px solid rgba(249,115,22,.6);
+  border-radius:50%;
+  pointer-events:none;
+  z-index:99998;
+  transition:width .18s,height .18s,border-color .18s,box-shadow .18s;
+}
+
+/* ── CANVAS ── */
+#bg{position:fixed;inset:0;z-index:0;display:block;}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:0 64px;height:72px;display:flex;align-items:center;justify-content:space-between;background:rgba(10,10,10,.88);backdrop-filter:blur(24px);border-bottom:1px solid rgba(255,255,255,.07);}
+.lf-logo{font-family:var(--font);font-size:1.75rem;font-weight:800;letter-spacing:-.5px;text-decoration:none;display:inline-flex;}
+.lf-l{color:#fff;}
+.lf-f{background:linear-gradient(135deg,#F97316,#FB923C,#fbbf24);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.lf-logo-sm{font-size:1.45rem;display:block;margin-bottom:10px;}
+nav ul{list-style:none;display:flex;gap:36px;align-items:center;}
+nav ul a{font-size:.82rem;font-weight:500;color:rgba(255,255,255,.55);text-decoration:none;transition:color .2s;}
+nav ul a:hover{color:#fff;}
+.nav-btn{background:var(--orange)!important;color:#fff!important;padding:10px 26px;border-radius:6px;font-weight:600!important;box-shadow:0 0 20px rgba(249,115,22,.3);transition:all .25s!important;}
+.nav-btn:hover{background:var(--orange2)!important;box-shadow:0 0 40px rgba(249,115,22,.6)!important;transform:translateY(-1px);}
+
+section{position:relative;z-index:2;}
+.wrap{max-width:1160px;margin:0 auto;padding:0 64px;}
+
+/* ── HERO ── */
+#hero{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:120px 60px 80px;text-align:center;overflow:hidden;}
+.hero-glow{position:absolute;top:25%;left:50%;transform:translateX(-50%);width:800px;height:500px;background:radial-gradient(ellipse,rgba(249,115,22,.1),transparent 70%);pointer-events:none;animation:gPulse 5s ease-in-out infinite;}
+@keyframes gPulse{0%,100%{opacity:.6;transform:translateX(-50%) scale(1)}50%{opacity:1;transform:translateX(-50%) scale(1.1)}}
+.badge{display:inline-flex;align-items:center;gap:8px;background:rgba(249,115,22,.1);border:1px solid rgba(249,115,22,.28);border-radius:40px;padding:6px 16px;font-size:.72rem;font-weight:500;color:var(--orange2);letter-spacing:.5px;margin-bottom:28px;opacity:0;animation:rUp .8s .1s forwards;}
+.bdot{width:6px;height:6px;border-radius:50%;background:var(--orange);box-shadow:0 0 8px var(--orange);animation:bl 2s ease-in-out infinite;}
+@keyframes bl{0%,100%{opacity:1}50%{opacity:.15}}
+h1.ht{font-size:clamp(3rem,6vw,5.4rem);font-weight:800;line-height:1.07;letter-spacing:-2px;margin-bottom:24px;opacity:0;animation:rUp .8s .25s forwards;}
+.acc{background:linear-gradient(135deg,var(--orange),var(--orange2),#fbbf24);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hp{font-size:1.1rem;color:var(--gray);line-height:1.78;max-width:580px;margin:0 auto 48px;font-weight:300;opacity:0;animation:rUp .8s .4s forwards;}
+.hbtns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:68px;opacity:0;animation:rUp .8s .55s forwards;}
+.bto{display:inline-flex;align-items:center;gap:8px;background:var(--orange);color:#fff;font-weight:700;font-size:.92rem;padding:16px 38px;border-radius:8px;text-decoration:none;box-shadow:0 0 28px rgba(249,115,22,.35);transition:all .3s;position:relative;overflow:hidden;}
+.bto::before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,transparent,rgba(255,255,255,.12),transparent);transform:translateX(-100%);transition:transform .5s;}
+.bto:hover::before{transform:translateX(100%);}
+.bto:hover{transform:translateY(-3px);box-shadow:0 0 52px rgba(249,115,22,.65);}
+.btw{display:inline-flex;align-items:center;gap:8px;color:var(--white);font-weight:500;font-size:.92rem;padding:15px 34px;border-radius:8px;text-decoration:none;border:1px solid rgba(255,255,255,.14);transition:all .3s;}
+.btw:hover{border-color:rgba(249,115,22,.5);background:rgba(249,115,22,.06);transform:translateY(-3px);}
+.hstats{display:flex;gap:56px;justify-content:center;}
+.hs-n{font-size:2.4rem;font-weight:800;color:var(--orange);line-height:1;text-shadow:0 0 20px rgba(249,115,22,.35);}
+.hs-l{font-size:.7rem;color:var(--gray);text-transform:uppercase;letter-spacing:1.5px;margin-top:4px;}
+@keyframes rUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+
+.divider{height:1px;background:linear-gradient(90deg,transparent,rgba(249,115,22,.25),transparent);}
+
+/* LOGOS STRIP */
+#logos{padding:52px 60px;background:var(--bg2);position:relative;z-index:2;}
+.logo-strip{max-width:1100px;margin:0 auto;text-align:center;}
+.strip-lbl{font-size:.68rem;font-weight:600;color:var(--gray2);letter-spacing:2px;text-transform:uppercase;margin-bottom:28px;}
+.strip-row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
+.spill{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:8px;padding:11px 22px;font-size:.82rem;font-weight:600;color:rgba(255,255,255,.3);transition:all .3s;}
+.spill:hover{border-color:rgba(249,115,22,.3);color:rgba(255,255,255,.65);}
+
+/* SECTION COMMON */
+.stag{display:inline-flex;align-items:center;gap:8px;background:rgba(249,115,22,.1);border:1px solid rgba(249,115,22,.24);border-radius:40px;padding:5px 14px;font-size:.67rem;font-weight:600;color:var(--orange2);letter-spacing:1px;text-transform:uppercase;margin-bottom:14px;}
+.sh{font-size:clamp(2rem,3.2vw,2.9rem);font-weight:800;letter-spacing:-1px;line-height:1.16;margin-bottom:12px;}
+.sp{font-size:.97rem;color:var(--gray);font-weight:300;line-height:1.75;}
+.accent{background:linear-gradient(135deg,var(--orange),var(--orange2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+
+/* SERVICES */
+#services{padding:120px 0;}
+.svc-hdr{text-align:center;margin-bottom:64px;}
+.svc-hdr .sp{margin:0 auto;max-width:500px;}
+.svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+.sc{background:var(--card);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:36px 30px;position:relative;overflow:hidden;transition:all .35s;cursor:default;}
+.sc::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--orange),transparent);transform:scaleX(0);transition:transform .4s;}
+.sc:hover{border-color:rgba(249,115,22,.28);background:var(--card2);transform:translateY(-8px);box-shadow:0 28px 64px rgba(0,0,0,.55);}
+.sc:hover::before{transform:scaleX(1);}
+.sc-ic{width:52px;height:52px;background:rgba(249,115,22,.1);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin-bottom:20px;border:1px solid rgba(249,115,22,.18);}
+.sc h3{font-size:1.02rem;font-weight:700;margin-bottom:10px;}
+.sc p{font-size:.87rem;color:var(--gray);line-height:1.72;font-weight:300;}
+.sc-arr{position:absolute;bottom:22px;right:22px;width:30px;height:30px;border:1px solid rgba(249,115,22,.22);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--orange);font-size:.85rem;opacity:0;transition:all .3s;}
+.sc:hover .sc-arr{opacity:1;}
+
+/* HOW */
+#how{padding:120px 0;background:var(--bg2);}
+.how-grid{display:grid;grid-template-columns:1fr 1fr;gap:100px;align-items:center;}
+.how-steps{display:flex;flex-direction:column;}
+.hstep{display:flex;gap:22px;padding:26px 0;border-bottom:1px solid rgba(255,255,255,.07);transition:padding .3s;}
+.hstep:last-child{border-bottom:none;}
+.hstep:hover{padding-left:8px;}
+.snum{width:46px;height:46px;flex-shrink:0;background:rgba(249,115,22,.1);border:1px solid rgba(249,115,22,.22);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:700;color:var(--orange);}
+.sbody h4{font-size:.97rem;font-weight:700;margin-bottom:5px;}
+.sbody p{font-size:.86rem;color:var(--gray);line-height:1.65;font-weight:300;}
+.hv{position:relative;height:480px;}
+.hvc{position:absolute;background:var(--card);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:22px 26px;}
+.hvc::before{content:"";position:absolute;top:-1px;left:20%;right:20%;height:1px;background:linear-gradient(90deg,transparent,var(--orange),transparent);}
+.hvc1{top:0;left:0;right:40px;animation:hv1 5s ease-in-out infinite;}
+.hvc2{top:165px;right:0;left:56px;animation:hv2 6.5s ease-in-out infinite;}
+.hvc3{bottom:0;left:16px;right:56px;animation:hv3 7.5s ease-in-out infinite;}
+@keyframes hv1{0%,100%{transform:translateY(0)}50%{transform:translateY(-16px)}}
+@keyframes hv2{0%,100%{transform:translateY(0)}50%{transform:translateY(-22px)}}
+@keyframes hv3{0%,100%{transform:translateY(0)}50%{transform:translateY(-13px)}}
+.hvl{font-size:.58rem;font-weight:600;color:var(--orange2);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;border-bottom:1px solid rgba(255,255,255,.07);padding-bottom:6px;}
+.hvb{font-size:2rem;font-weight:800;color:var(--white);line-height:1;}
+.hvs{font-size:.74rem;color:var(--gray);margin-top:4px;}
+.bset{display:flex;flex-direction:column;gap:10px;margin-top:4px;}
+.bi label{font-size:.58rem;color:var(--gray);display:flex;justify-content:space-between;margin-bottom:4px;font-weight:500;}
+.bbg{height:3px;background:rgba(255,255,255,.05);border-radius:2px;overflow:hidden;}
+.bfg{height:100%;background:linear-gradient(90deg,var(--orange),var(--orange2));border-radius:2px;box-shadow:0 0 7px rgba(249,115,22,.4);animation:bfgr 1.6s ease-out forwards;}
+@keyframes bfgr{from{width:0}to{width:var(--w)}}
+
+/* PRICING */
+#pricing{padding:120px 0;}
+.p-hdr{text-align:center;margin-bottom:64px;}
+.p-hdr .sp{margin:0 auto;max-width:480px;}
+.ptabs{display:flex;gap:6px;justify-content:center;margin-bottom:52px;background:var(--bg3);border-radius:10px;padding:5px;width:fit-content;margin-left:auto;margin-right:auto;border:1px solid rgba(255,255,255,.07);}
+.ptab{padding:9px 26px;border-radius:7px;border:none;background:transparent;color:var(--gray);font-family:var(--font);font-size:.82rem;font-weight:500;cursor:pointer;transition:all .25s;}
+.ptab.active{background:var(--orange);color:#fff;box-shadow:0 0 16px rgba(249,115,22,.28);}
+.psec{display:none;}
+.psec.active{display:block;}
+.pgrid{display:grid;gap:20px;}
+.p3{grid-template-columns:repeat(3,1fr);}
+.pcard{background:var(--card);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:32px 28px;position:relative;transition:all .35s;overflow:hidden;}
+.pcard.hot{border-color:rgba(249,115,22,.38);background:linear-gradient(135deg,rgba(249,115,22,.07),rgba(249,115,22,.025));}
+.pcard.hot::after{content:"POPULAR";position:absolute;top:14px;right:14px;background:var(--orange);color:#fff;font-size:.58rem;font-weight:700;letter-spacing:1.5px;padding:4px 10px;border-radius:20px;}
+.pcard:hover{transform:translateY(-6px);border-color:rgba(249,115,22,.28);box-shadow:0 22px 56px rgba(0,0,0,.5);}
+.pt{font-size:.62rem;font-weight:600;color:var(--orange2);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;}
+.pn{font-size:1.05rem;font-weight:700;margin-bottom:4px;}
+.pp{font-size:1.6rem;font-weight:800;color:var(--white);margin:12px 0 6px;line-height:1;}
+.pp span{font-size:.82rem;font-weight:400;color:var(--gray);}
+.pd{font-size:.82rem;color:var(--gray);line-height:1.6;font-weight:300;margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid rgba(255,255,255,.07);}
+.pf{list-style:none;display:flex;flex-direction:column;gap:8px;}
+.pf li{font-size:.82rem;color:rgba(255,255,255,.7);display:flex;align-items:flex-start;gap:8px;font-weight:300;}
+.pf li::before{content:"✓";color:var(--orange);font-weight:700;font-size:.75rem;margin-top:2px;flex-shrink:0;}
+.pbtn{display:block;text-align:center;margin-top:20px;padding:12px;border-radius:8px;font-size:.83rem;font-weight:600;text-decoration:none;transition:all .3s;}
+.pbo{background:var(--orange);color:#fff;box-shadow:0 0 16px rgba(249,115,22,.22);}
+.pbo:hover{box-shadow:0 0 32px rgba(249,115,22,.5);}
+.pbg{border:1px solid rgba(255,255,255,.07);color:var(--gray);}
+.pbg:hover{border-color:rgba(249,115,22,.38);color:var(--white);background:rgba(249,115,22,.06);}
+.addon-tbl{max-width:680px;margin:40px auto 0;background:var(--card);border:1px solid rgba(255,255,255,.07);border-radius:16px;overflow:hidden;}
+.arow{display:flex;justify-content:space-between;align-items:center;padding:16px 28px;border-bottom:1px solid rgba(255,255,255,.07);}
+.arow:last-child{border-bottom:none;}
+.an{font-size:.88rem;font-weight:500;}
+.ap{font-size:.88rem;font-weight:700;color:var(--orange);}
+
+/* FEATURES */
+#features{padding:120px 0;background:var(--bg2);}
+.f-hdr{text-align:center;margin-bottom:64px;}
+.fgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.07);border-radius:16px;overflow:hidden;}
+.fi{background:var(--bg2);padding:40px 34px;transition:background .3s;}
+.fi:hover{background:var(--card);}
+.fi-ic{font-size:1.8rem;margin-bottom:16px;}
+.fi h3{font-size:.98rem;font-weight:700;margin-bottom:8px;}
+.fi p{font-size:.86rem;color:var(--gray);line-height:1.7;font-weight:300;}
+
+/* TESTIMONIALS */
+#testi{padding:120px 0;}
+.t-hdr{text-align:center;margin-bottom:64px;}
+.tgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+.tc{background:var(--card);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:32px;transition:all .3s;}
+.tc:hover{border-color:rgba(249,115,22,.22);transform:translateY(-4px);}
+.tc-stars{color:var(--orange);font-size:.82rem;margin-bottom:16px;letter-spacing:2px;}
+.tc-txt{font-size:.89rem;color:rgba(255,255,255,.72);line-height:1.72;font-weight:300;margin-bottom:20px;font-style:italic;}
+.tc-auth{display:flex;align-items:center;gap:12px;}
+.tc-av{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--orange),var(--orange2));display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.9rem;color:#fff;flex-shrink:0;}
+.tc-name{font-size:.88rem;font-weight:600;}
+.tc-role{font-size:.74rem;color:var(--gray);}
+
+/* CONTACT */
+#contact{padding:120px 0;background:var(--bg2);}
+.ct-grid{display:grid;grid-template-columns:1fr 1.3fr;gap:80px;align-items:start;}
+.ct-l h3{font-size:1.5rem;font-weight:800;margin-bottom:12px;letter-spacing:-.5px;}
+.ct-l p{font-size:.92rem;color:var(--gray);line-height:1.75;font-weight:300;margin-bottom:36px;}
+.clink{display:flex;align-items:center;gap:14px;padding:14px 18px;background:var(--card);border:1px solid rgba(255,255,255,.07);border-radius:10px;text-decoration:none;color:var(--white);font-size:.87rem;margin-bottom:10px;transition:all .3s;}
+.clink:hover{border-color:rgba(249,115,22,.3);background:var(--card2);}
+.soc-row{display:flex;gap:10px;margin-top:22px;}
+.soc{width:44px;height:44px;border-radius:10px;border:1px solid rgba(255,255,255,.07);background:var(--card);display:flex;align-items:center;justify-content:center;text-decoration:none;color:var(--gray);transition:all .3s;}
+.soc:hover{transform:translateY(-3px);color:var(--white);}
+.soc.ig:hover{border-color:rgba(225,48,108,.4);background:rgba(225,48,108,.1);}
+.soc.li:hover{border-color:rgba(10,102,194,.4);background:rgba(10,102,194,.1);}
+.soc.wa:hover{border-color:rgba(37,211,102,.4);background:rgba(37,211,102,.1);}
+.fbox{background:var(--card);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:40px;position:relative;overflow:hidden;}
+.fbox::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--orange),transparent);}
+.fbox-h{font-size:.9rem;font-weight:700;color:var(--orange2);margin-bottom:28px;}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
+.fg{display:flex;flex-direction:column;gap:6px;margin-bottom:14px;}
+.fg label{font-size:.68rem;font-weight:600;color:rgba(255,255,255,.38);letter-spacing:.8px;text-transform:uppercase;}
+.fg input,.fg select,.fg textarea{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:12px 15px;color:var(--white);font-family:var(--font);font-size:.9rem;outline:none;transition:all .25s;width:100%;}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:rgba(249,115,22,.38);background:rgba(249,115,22,.04);}
+.fg select option{background:#111;}
+.fg textarea{resize:vertical;min-height:88px;}
+.fsub{width:100%;background:var(--orange);color:#fff;border:none;padding:15px;border-radius:8px;font-family:var(--font);font-size:.9rem;font-weight:700;cursor:pointer;transition:all .3s;box-shadow:0 0 20px rgba(249,115,22,.22);}
+.fsub:hover{background:var(--orange2);box-shadow:0 0 40px rgba(249,115,22,.5);transform:translateY(-2px);}
+.fok{display:none;text-align:center;padding:12px;background:rgba(249,115,22,.08);border:1px solid rgba(249,115,22,.22);border-radius:8px;font-size:.8rem;color:var(--orange2);margin-top:12px;}
+
+/* CTA */
+#cta{padding:100px 60px;text-align:center;position:relative;overflow:hidden;}
+#cta::before{content:"";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:900px;height:500px;background:radial-gradient(ellipse,rgba(249,115,22,.07),transparent 70%);pointer-events:none;}
+.ctabox{max-width:720px;margin:0 auto;background:linear-gradient(135deg,rgba(249,115,22,.08),rgba(249,115,22,.03));border:1px solid rgba(249,115,22,.18);border-radius:24px;padding:72px 60px;position:relative;}
+.ctabox h2{font-size:clamp(1.9rem,3.5vw,2.9rem);font-weight:800;margin-bottom:14px;letter-spacing:-.5px;}
+.ctabox p{color:var(--gray);margin-bottom:36px;font-size:1rem;font-weight:300;}
+.cta-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
+
+/* FOOTER */
+footer{background:#070707;border-top:1px solid rgba(255,255,255,.07);padding:64px 64px 32px;position:relative;z-index:3;}
+.ft{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:60px;margin-bottom:48px;}
+.fb p{font-size:.86rem;color:var(--gray);line-height:1.72;margin-top:12px;font-weight:300;max-width:250px;}
+.fc h4{font-size:.66rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--orange2);margin-bottom:18px;}
+.fc ul{list-style:none;}
+.fc ul li{margin-bottom:10px;}
+.fc ul a{font-size:.86rem;color:var(--gray);text-decoration:none;font-weight:300;transition:color .2s;}
+.fc ul a:hover{color:var(--white);}
+.fsocs{display:flex;gap:10px;margin-top:18px;}
+.fsc{width:36px;height:36px;border-radius:8px;border:1px solid rgba(255,255,255,.07);background:var(--card);display:flex;align-items:center;justify-content:center;text-decoration:none;color:var(--gray);transition:all .3s;}
+.fsc:hover{color:var(--white);border-color:rgba(249,115,22,.3);}
+.fbot{border-top:1px solid rgba(255,255,255,.07);padding-top:24px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+.fbot p{font-size:.78rem;color:var(--gray2);}
+
+@media(max-width:1024px){nav{padding:0 24px;}.wrap{padding:0 24px;}.svc-grid,.tgrid{grid-template-columns:1fr 1fr;}.fgrid{grid-template-columns:1fr 1fr;}.pgrid.p3{grid-template-columns:1fr 1fr;}.how-grid{grid-template-columns:1fr;}.hv{display:none;}.ct-grid{grid-template-columns:1fr;}.ft{grid-template-columns:1fr 1fr;gap:36px;}.hstats{gap:28px;}}
+@media(max-width:640px){.svc-grid,.tgrid,.fgrid,.pgrid{grid-template-columns:1fr;}nav ul{display:none;}#hero{padding:100px 24px 60px;}.frow{grid-template-columns:1fr;}#cta{padding:60px 24px;}.ctabox{padding:40px 24px;}footer{padding:48px 24px 28px;}.hstats{gap:20px;}}
+</style>
+</head>
+<body>
+
+<div id="dot"></div>
+<div id="ring"></div>
+<canvas id="bg"></canvas>
+
+
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="lf-logo"><span class="lf-l">Lead</span><span class="lf-f">Forge</span></a>
+  <ul>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#how">Process</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#contact" class="nav-btn">Get Started</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-glow"></div>
+  <div style="position:relative;z-index:2;max-width:880px;">
+    <div class="badge"><span class="bdot"></span>20+ Businesses &amp; Growing</div>
+    <h1 class="ht">Get More Customers<br><span class="acc">Without the Guesswork</span></h1>
+    <p class="hp">We build high-converting websites, WhatsApp automation, and AI chatbots that turn visitors into real paying customers — on autopilot.</p>
+    <div class="hbtns">
+      <a href="#contact" class="bto">🚀 Get Free Demo</a>
+      <a href="https://wa.me/919999999999" target="_blank" class="btw">💬 Chat on WhatsApp</a>
+    </div>
+    <div class="hstats">
+      <div class="text-center"><div class="hs-n">20+</div><div class="hs-l">Businesses Helped</div></div>
+      <div class="text-center"><div class="hs-n">3×</div><div class="hs-l">More Leads</div></div>
+      <div class="text-center"><div class="hs-n">24/7</div><div class="hs-l">AI Running</div></div>
+      <div class="text-center"><div class="hs-n">4.9★</div><div class="hs-l">Client Rating</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- INDUSTRY STRIP -->
+<section id="logos">
+  <div class="logo-strip">
+    <div class="strip-lbl">Helping businesses in every industry</div>
+    <div class="strip-row">
+      <div class="spill">🏪 Retail</div>
+      <div class="spill">🍽️ Restaurants</div>
+      <div class="spill">🏥 Clinics</div>
+      <div class="spill">🏗️ Real Estate</div>
+      <div class="spill">🎓 Education</div>
+      <div class="spill">💇 Salons</div>
+      <div class="spill">🚗 Automobile</div>
+      <div class="spill">⚖️ Legal</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="wrap">
+    <div class="svc-hdr reveal">
+      <div class="stag">What We Build</div>
+      <h2 class="sh">Everything You Need to<br><span class="accent">Win Online</span></h2>
+      <p class="sp">Three powerful systems working together to bring you more customers, more inquiries, and more revenue.</p>
+    </div>
+    <div class="svc-grid">
+      <div class="sc reveal"><div class="sc-ic">🌐</div><h3>Website Development</h3><p>Modern, fast, mobile-first websites designed to convert. From simple landing pages to full multi-page business sites with lead forms.</p><div class="sc-arr">↗</div></div>
+      <div class="sc reveal" style="transition-delay:.1s"><div class="sc-ic">📱</div><h3>WhatsApp Automation</h3><p>Never miss a customer again. Automated replies, lead capture flows, and FAQ bots that respond instantly — day or night.</p><div class="sc-arr">↗</div></div>
+      <div class="sc reveal" style="transition-delay:.2s"><div class="sc-ic">🤖</div><h3>AI Chatbots</h3><p>Smart AI agents that answer questions, qualify leads, and book appointments 24/7 — your best employee who never sleeps.</p><div class="sc-arr">↗</div></div>
+      <div class="sc reveal" style="transition-delay:.3s"><div class="sc-ic">🎯</div><h3>Lead Generation</h3><p>Complete funnel setup — landing page, WhatsApp integration, and automated follow-up — so leads flow in automatically.</p><div class="sc-arr">↗</div></div>
+      <div class="sc reveal" style="transition-delay:.4s"><div class="sc-ic">🔍</div><h3>SEO Optimisation</h3><p>Get found on Google. We optimise your site so the right customers find you when they search for your services.</p><div class="sc-arr">↗</div></div>
+      <div class="sc reveal" style="transition-delay:.5s"><div class="sc-ic">🛠️</div><h3>Maintenance & Support</h3><p>Monthly support, updates, performance monitoring, and hosting management — so you never worry about your site again.</p><div class="sc-arr">↗</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how">
+  <div class="wrap">
+    <div class="how-grid">
+      <div>
+        <div class="stag reveal">Our Process</div>
+        <h2 class="sh reveal">From Zero to<br><span class="accent">Lead Machine</span><br>in Days</h2>
+        <p class="sp reveal" style="margin-bottom:36px">A simple 3-step process. We handle everything — you just watch the leads come in.</p>
+        <div class="how-steps">
+          <div class="hstep reveal"><div class="snum">01</div><div class="sbody"><h4>Discovery & Strategy</h4><p>We understand your business, audience, and goals — then craft the perfect digital growth plan.</p></div></div>
+          <div class="hstep reveal" style="transition-delay:.1s"><div class="snum">02</div><div class="sbody"><h4>Build & Integrate</h4><p>We build your website, set up WhatsApp automation, and connect everything into one seamless system.</p></div></div>
+          <div class="hstep reveal" style="transition-delay:.2s"><div class="snum">03</div><div class="sbody"><h4>Launch & Get Leads</h4><p>Go live and watch real enquiries flow in. We provide ongoing support to keep everything running perfectly.</p></div></div>
+        </div>
+      </div>
+      <div class="hv reveal">
+        <div class="hvc hvc1"><div class="hvl">This Month</div><div class="hvb">+312%</div><div class="hvs">Lead increase vs last month</div></div>
+        <div class="hvc hvc2">
+          <div class="hvl">Performance</div>
+          <div class="bset">
+            <div class="bi"><label><span>Leads Converted</span><span>94%</span></label><div class="bbg"><div class="bfg" style="--w:94%"></div></div></div>
+            <div class="bi"><label><span>WhatsApp Response</span><span>98%</span></label><div class="bbg"><div class="bfg" style="--w:98%"></div></div></div>
+            <div class="bi"><label><span>Client Satisfaction</span><span>99%</span></label><div class="bbg"><div class="bfg" style="--w:99%"></div></div></div>
+          </div>
+        </div>
+        <div class="hvc hvc3"><div class="hvl">Active Clients</div><div class="hvb">20+</div><div class="hvs">Growing with LeadForge</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="wrap">
+    <div class="p-hdr reveal">
+      <div class="stag">Pricing</div>
+      <h2 class="sh">Transparent Pricing.<br><span class="accent">Zero Surprises.</span></h2>
+      <p class="sp">Choose exactly what your business needs. Every package includes dedicated support.</p>
+    </div>
+    <div class="ptabs reveal">
+      <button class="ptab active" onclick="showP('websites',this)">Websites</button>
+      <button class="ptab" onclick="showP('whatsapp',this)">WhatsApp</button>
+      <button class="ptab" onclick="showP('chatbots',this)">AI Chatbots</button>
+      <button class="ptab" onclick="showP('combos',this)">Combos</button>
+      <button class="ptab" onclick="showP('addons',this)">Add-ons</button>
+    </div>
+
+    <div class="psec active" id="ps-websites">
+      <div class="pgrid p3">
+        <div class="pcard reveal"><div class="pt">Basic</div><div class="pn">Starter Website</div><div class="pp">₹3,000<span> – ₹5,000</span></div><div class="pd">Perfect for new businesses needing a clean, professional presence fast.</div><ul class="pf"><li>1–2 page website</li><li>WhatsApp button</li><li>Contact form</li><li>Mobile responsive</li><li>Fast loading</li></ul><a href="#contact" class="pbtn pbg">Get Started</a></div>
+        <div class="pcard hot reveal" style="transition-delay:.1s"><div class="pt">Standard</div><div class="pn">Business Website</div><div class="pp">₹6,000<span> – ₹10,000</span></div><div class="pd">Full business website with modern UI and built-in lead generation tools.</div><ul class="pf"><li>3–5 pages</li><li>Modern premium UI</li><li>Lead capture forms</li><li>Basic SEO setup</li><li>WhatsApp integration</li><li>Analytics setup</li></ul><a href="#contact" class="pbtn pbo">Get Started</a></div>
+        <div class="pcard reveal" style="transition-delay:.2s"><div class="pt">Premium</div><div class="pn">Pro Website</div><div class="pp">₹12,000<span> – ₹20,000</span></div><div class="pd">Advanced design, top performance, chatbot-ready and built to dominate.</div><ul class="pf"><li>Advanced custom design</li><li>Lightning fast speed</li><li>Chatbot ready</li><li>Full SEO optimisation</li><li>CRM integration</li><li>Priority support</li></ul><a href="#contact" class="pbtn pbg">Get Started</a></div>
+      </div>
+    </div>
+
+    <div class="psec" id="ps-whatsapp">
+      <div class="pgrid p3">
+        <div class="pcard reveal"><div class="pt">Basic</div><div class="pn">WhatsApp Starter</div><div class="pp">₹2,000<span> – ₹4,000</span></div><div class="pd">Automated replies so you never miss a customer enquiry again.</div><ul class="pf"><li>Auto reply setup</li><li>Greeting messages</li><li>FAQ automation</li><li>Business hours messages</li></ul><a href="#contact" class="pbtn pbg">Get Started</a></div>
+        <div class="pcard hot reveal" style="transition-delay:.1s"><div class="pt">Advanced</div><div class="pn">WhatsApp Pro</div><div class="pp">₹5,000<span> – ₹10,000</span></div><div class="pd">Full chat flows and lead capture — your sales team on WhatsApp.</div><ul class="pf"><li>Custom chat flow design</li><li>Lead capture system</li><li>Product/service menus</li><li>Follow-up sequences</li><li>Broadcast setup</li></ul><a href="#contact" class="pbtn pbo">Get Started</a></div>
+        <div class="pcard reveal" style="transition-delay:.2s"><div class="pt">Pro</div><div class="pn">WhatsApp API</div><div class="pp">₹12,000<span>+</span></div><div class="pd">Full API integration with your CRM — enterprise-grade automation.</div><ul class="pf"><li>Official WhatsApp API</li><li>CRM integration</li><li>Multi-agent support</li><li>Custom workflows</li><li>Analytics dashboard</li></ul><a href="#contact" class="pbtn pbg">Get Started</a></div>
+      </div>
+    </div>
+
+    <div class="psec" id="ps-chatbots">
+      <div class="pgrid p3">
+        <div class="pcard reveal"><div class="pt">Basic</div><div class="pn">FAQ Bot</div><div class="pp">₹3,000<span> – ₹6,000</span></div><div class="pd">Answers common questions automatically — reduce customer support time.</div><ul class="pf"><li>FAQ answering</li><li>Business info bot</li><li>Contact capture</li><li>WhatsApp / website</li></ul><a href="#contact" class="pbtn pbg">Get Started</a></div>
+        <div class="pcard hot reveal" style="transition-delay:.1s"><div class="pt">Smart</div><div class="pn">AI Response Bot</div><div class="pp">₹7,000<span> – ₹12,000</span></div><div class="pd">Context-aware AI that understands and responds naturally to customers.</div><ul class="pf"><li>AI-powered responses</li><li>Lead qualification</li><li>Appointment booking</li><li>Product recommendations</li><li>Multi-platform</li></ul><a href="#contact" class="pbtn pbo">Get Started</a></div>
+        <div class="pcard reveal" style="transition-delay:.2s"><div class="pt">Advanced</div><div class="pn">Custom AI Bot</div><div class="pp">₹15,000<span>+</span></div><div class="pd">Fully custom AI trained on your business — the ultimate smart assistant.</div><ul class="pf"><li>Custom-trained AI</li><li>Deep CRM integration</li><li>Voice support ready</li><li>Advanced analytics</li><li>Dedicated support</li></ul><a href="#contact" class="pbtn pbg">Get Started</a></div>
+      </div>
+    </div>
+
+    <div class="psec" id="ps-combos">
+      <div class="pgrid p3">
+        <div class="pcard reveal"><div class="pt">Bundle</div><div class="pn">Starter Combo</div><div class="pp">₹5,000<span> – ₹7,000</span></div><div class="pd">Website + basic WhatsApp automation. Perfect to get started online.</div><ul class="pf"><li>Basic website (1-2 pages)</li><li>WhatsApp auto-reply</li><li>Contact form</li><li>Mobile ready</li></ul><a href="#contact" class="pbtn pbg">Get Started</a></div>
+        <div class="pcard hot reveal" style="transition-delay:.1s"><div class="pt">Bundle</div><div class="pn">Growth Combo</div><div class="pp">₹8,000<span> – ₹12,000</span></div><div class="pd">Website + WhatsApp Pro + basic chatbot. Best value for growing businesses.</div><ul class="pf"><li>Business website (3-5 pages)</li><li>WhatsApp chat flows</li><li>FAQ chatbot</li><li>Lead capture system</li><li>SEO setup</li></ul><a href="#contact" class="pbtn pbo">Get Started</a></div>
+        <div class="pcard reveal" style="transition-delay:.2s"><div class="pt">Bundle</div><div class="pn">Premium Combo</div><div class="pp">₹15,000<span> – ₹25,000</span></div><div class="pd">Everything — premium website, full automation, and smart AI chatbot.</div><ul class="pf"><li>Premium website</li><li>WhatsApp API setup</li><li>Smart AI chatbot</li><li>CRM integration</li><li>Full SEO</li><li>3 months support</li></ul><a href="#contact" class="pbtn pbg">Get Started</a></div>
+      </div>
+    </div>
+
+    <div class="psec" id="ps-addons">
+      <div class="addon-tbl reveal">
+        <div class="arow"><span class="an">🌐 Domain Registration &amp; Hosting Setup</span><span class="ap">₹1,000 – ₹2,000</span></div>
+        <div class="arow"><span class="an">🛠️ Monthly Maintenance &amp; Support</span><span class="ap">₹1,000 / month</span></div>
+        <div class="arow"><span class="an">📄 Extra Website Pages</span><span class="ap">₹1,000 / page</span></div>
+        <div class="arow"><span class="an">📸 Product / Service Photography</span><span class="ap">On request</span></div>
+        <div class="arow"><span class="an">📊 Google Analytics Setup</span><span class="ap">Included in Standard+</span></div>
+        <div class="arow"><span class="an">🔒 SSL Certificate Setup</span><span class="ap">Included free</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="wrap">
+    <div class="f-hdr reveal">
+      <div class="stag">Why LeadForge</div>
+      <h2 class="sh">Built Different.<br><span class="accent">Delivering Real Results.</span></h2>
+    </div>
+    <div class="fgrid">
+      <div class="fi reveal"><div class="fi-ic">⚡</div><h3>Lightning Fast</h3><p>All our websites load in under 2 seconds — because slow sites lose customers before they even see your offer.</p></div>
+      <div class="fi reveal" style="transition-delay:.05s"><div class="fi-ic">📱</div><h3>Mobile First</h3><p>Over 80% of your customers browse on mobile. Every site looks and works perfectly on any screen size.</p></div>
+      <div class="fi reveal" style="transition-delay:.1s"><div class="fi-ic">🤖</div><h3>AI-Powered</h3><p>Smart chatbots and automation working around the clock — capturing and qualifying leads while you sleep.</p></div>
+      <div class="fi reveal" style="transition-delay:.15s"><div class="fi-ic">📈</div><h3>SEO Optimised</h3><p>Built to rank on Google from day one. More visibility means more people finding you when they need you.</p></div>
+      <div class="fi reveal" style="transition-delay:.2s"><div class="fi-ic">🔒</div><h3>Secure & Reliable</h3><p>SSL certificates, secure hosting, and 99.9% uptime — your business is always online and protected.</p></div>
+      <div class="fi reveal" style="transition-delay:.25s"><div class="fi-ic">🛠️</div><h3>Ongoing Support</h3><p>We don't disappear after launch. Monthly maintenance and a team you can actually reach when needed.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testi">
+  <div class="wrap">
+    <div class="t-hdr reveal">
+      <div class="stag">Reviews</div>
+      <h2 class="sh">Real Businesses.<br><span class="accent">Real Results.</span></h2>
+    </div>
+    <div class="tgrid">
+      <div class="tc reveal"><div class="tc-stars">★★★★★</div><div class="tc-txt">"LeadForge built our website and WhatsApp automation in just 5 days. Within the first week we got 40+ new enquiries. Absolutely brilliant."</div><div class="tc-auth"><div class="tc-av">R</div><div><div class="tc-name">Rahul Mehta</div><div class="tc-role">Owner, Mehta Real Estate</div></div></div></div>
+      <div class="tc reveal" style="transition-delay:.1s"><div class="tc-stars">★★★★★</div><div class="tc-txt">"Our restaurant was invisible online. After LeadForge, reservations went up 3x in one month. The WhatsApp bot alone handles 50+ daily queries."</div><div class="tc-auth"><div class="tc-av">P</div><div><div class="tc-name">Priya Sharma</div><div class="tc-role">Manager, Spice Garden Restaurant</div></div></div></div>
+      <div class="tc reveal" style="transition-delay:.2s"><div class="tc-stars">★★★★★</div><div class="tc-txt">"The AI chatbot they built for our clinic handles patient FAQs automatically. Our staff save 3 hours every day. Worth every rupee and more."</div><div class="tc-auth"><div class="tc-av">A</div><div><div class="tc-name">Dr. Anil Kumar</div><div class="tc-role">Director, Wellness Clinic</div></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="wrap">
+    <div class="ct-grid">
+      <div class="ct-l reveal">
+        <div class="stag">Get In Touch</div>
+        <h3>Let's Build Something<br>That <span class="accent">Actually Works</span></h3>
+        <p>Tell us about your business and we'll put together a custom plan. First consultation is completely free — no commitment needed.</p>
+        <a href="/cdn-cgi/l/email-protection#3b575e5a5f5d54495c5e1552557b5c565a525715585456" class="clink"><span>✉️</span> <span class="__cf_email__" data-cfemail="98f4fdf9fcfef7eafffdb6f1f6d8fff5f9f1f4b6fbf7f5">[email&#160;protected]</span></a>
+        <a href="https://wa.me/919999999999" target="_blank" class="clink"><span>💬</span> +91 99999 99999 (WhatsApp)</a>
+        <a href="https://instagram.com/leadforge.tech" target="_blank" class="clink"><span>📸</span> @leadforge.tech</a>
+        <div style="margin-top:22px;margin-bottom:10px;font-size:.66rem;font-weight:600;color:rgba(255,255,255,.28);letter-spacing:1.5px;text-transform:uppercase;">Follow Us</div>
+        <div class="soc-row">
+          <a href="https://instagram.com/leadforge.tech" target="_blank" class="soc ig" title="Instagram"><svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+          <a href="https://linkedin.com/company/leadforge" target="_blank" class="soc li" title="LinkedIn"><svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+          <a href="https://wa.me/919999999999" target="_blank" class="soc wa" title="WhatsApp"><svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
+        </div>
+      </div>
+      <div class="fbox reveal" style="transition-delay:.15s">
+        <div class="fbox-h">📋 Send Us a Message</div>
+        <div class="frow">
+          <div class="fg"><label>First Name *</label><input type="text" id="fn" placeholder="Rahul"></div>
+          <div class="fg"><label>Last Name</label><input type="text" id="ln" placeholder="Sharma"></div>
+        </div>
+        <div class="fg"><label>Email Address *</label><input type="email" id="em" placeholder="rahul@gmail.com"></div>
+        <div class="fg"><label>WhatsApp Number *</label><input type="tel" id="ph" placeholder="+91 98765 43210"></div>
+        <div class="fg"><label>Business Name</label><input type="text" id="bz" placeholder="Your Business Name"></div>
+        <div class="fg"><label>Service Needed</label>
+          <select id="sv">
+            <option value="">— What do you need? —</option>
+            <option>Basic Website (₹3k–5k)</option>
+            <option>Standard Website (₹6k–10k)</option>
+            <option>Premium Website (₹12k–20k)</option>
+            <option>WhatsApp Automation</option>
+            <option>AI Chatbot</option>
+            <option>Combo Package</option>
+            <option>Not sure — need advice</option>
+          </select>
+        </div>
+        <div class="fg"><label>Message</label><textarea id="mg" placeholder="Tell us about your business and what you want to achieve..."></textarea></div>
+        <button class="fsub" onclick="doSend()">Send Message →</button>
+        <div class="fok" id="fok">✅ Message received! We'll reply within 24 hours.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta">
+  <div class="ctabox reveal">
+    <div class="stag" style="margin:0 auto 16px">Limited Spots Available</div>
+    <h2>Ready to Get <span class="accent">More Customers?</span></h2>
+    <p>Join 20+ businesses already growing with LeadForge. Free consultation, no commitment needed.</p>
+    <div class="cta-btns">
+      <a href="#contact" class="bto">🚀 Get Free Demo</a>
+      <a href="https://wa.me/919999999999" target="_blank" class="btw">💬 WhatsApp Us Now</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="ft">
+    <div class="fb">
+      <a href="#" class="lf-logo lf-logo-sm"><span class="lf-l">Lead</span><span class="lf-f">Forge</span></a>
+      <p>Websites + WhatsApp automation + AI chatbots that convert visitors into real customers for your business — automatically.</p>
+      <div class="fsocs">
+        <a href="https://instagram.com/leadforge.tech" target="_blank" class="fsc" title="Instagram"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+        <a href="https://linkedin.com/company/leadforge" target="_blank" class="fsc" title="LinkedIn"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+        <a href="https://wa.me/919999999999" target="_blank" class="fsc" title="WhatsApp"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
+      </div>
+    </div>
+    <div class="fc"><h4>Services</h4><ul><li><a href="#services">Website Development</a></li><li><a href="#services">WhatsApp Automation</a></li><li><a href="#services">AI Chatbots</a></li><li><a href="#services">Lead Generation</a></li></ul></div>
+    <div class="fc"><h4>Company</h4><ul><li><a href="#how">How It Works</a></li><li><a href="#pricing">Pricing</a></li><li><a href="#testi">Reviews</a></li><li><a href="#contact">Contact</a></li></ul></div>
+    <div class="fc"><h4>Connect</h4><ul><li><a href="https://instagram.com/leadforge.tech" target="_blank">@leadforge.tech</a></li><li><a href="https://linkedin.com/company/leadforge" target="_blank">LinkedIn</a></li><li><a href="https://wa.me/919999999999" target="_blank">WhatsApp</a></li><li><a href="/cdn-cgi/l/email-protection#ddb1b8bcb9bbb2afbab8f3b4b39dbab0bcb4b1f3beb2b0"><span class="__cf_email__" data-cfemail="d2beb7b3b6b4bda0b5b7fcbbbc92b5bfb3bbbefcb1bdbf">[email&#160;protected]</span></a></li></ul></div>
+  </div>
+  <div class="fbot">
+    <p>© 2026 LeadForge. All rights reserved.</p>
+    <p>Made with 🔥 for Indian businesses</p>
+  </div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+
+<script>
+// ================================================================
+// CURSOR — glowing dot + trailing ring
+// ================================================================
+(function(){
+  const dot = document.getElementById('dot');
+  const ring = document.getElementById('ring');
+  let mx = window.innerWidth/2, my = window.innerHeight/2;
+  let rx = mx, ry = my;
+
+  // Move dot instantly
+  document.addEventListener('mousemove', function(e){
+    mx = e.clientX;
+    my = e.clientY;
+    dot.style.left = mx + 'px';
+    dot.style.top  = my + 'px';
+  });
+
+  // Lag ring with rAF
+  (function loop(){
+    rx += (mx - rx) * 0.13;
+    ry += (my - ry) * 0.13;
+    ring.style.left = rx + 'px';
+    ring.style.top  = ry + 'px';
+    requestAnimationFrame(loop);
+  })();
+
+  // Hover effect
+  document.querySelectorAll('a, button, .sc, .pcard, .tc, .ptab').forEach(function(el){
+    el.addEventListener('mouseenter', function(){
+      dot.style.transform  = 'translate(-50%,-50%) scale(3)';
+      dot.style.background = '#FB923C';
+      ring.style.width     = '58px';
+      ring.style.height    = '58px';
+      ring.style.borderColor = 'rgba(249,115,22,1)';
+      ring.style.boxShadow = '0 0 20px rgba(249,115,22,.5)';
+    });
+    el.addEventListener('mouseleave', function(){
+      dot.style.transform  = 'translate(-50%,-50%) scale(1)';
+      dot.style.background = '#F97316';
+      ring.style.width     = '38px';
+      ring.style.height    = '38px';
+      ring.style.borderColor = 'rgba(249,115,22,.6)';
+      ring.style.boxShadow = 'none';
+    });
+  });
+
+  // Apply centering transform
+  dot.style.transform = 'translate(-50%,-50%)';
+  ring.style.transform = 'translate(-50%,-50%)';
+})();
+
+// ================================================================
+// CANVAS — deep dark bg + anti-gravity smoke + rising waves + particles
+// ================================================================
+(function(){
+  var cv = document.getElementById('bg');
+  var ct = cv.getContext('2d');
+  var W, H;
+
+  function resize(){
+    W = cv.width  = window.innerWidth;
+    H = cv.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  var mo = { x: W/2, y: H/2 };
+  document.addEventListener('mousemove', function(e){ mo.x=e.clientX; mo.y=e.clientY; });
+
+  // ── particles ──
+  var pts = [];
+  function initPts(){
+    pts = [];
+    var n = Math.min(80, Math.floor(W*H/13000));
+    for(var i=0;i<n;i++) pts.push({
+      x:Math.random()*W, y:Math.random()*H,
+      vx:(Math.random()-.5)*.22, vy:(Math.random()-.5)*.22,
+      r:Math.random()*1.4+.3, a:Math.random()*.3+.08
+    });
+  }
+  initPts();
+  window.addEventListener('resize', initPts);
+
+  // ── smoke orbs ──
+  function newSmoke(){
+    return {
+      x: Math.random()*W,
+      y: H + Math.random()*200,
+      vx:(Math.random()-.5)*.3,
+      vy:-(Math.random()*.55+.15),
+      r: Math.random()*120+40,
+      a: Math.random()*.07+.018,
+      life:0,
+      spd:Math.random()*.007+.003,
+      wob:Math.random()*Math.PI*2,
+      ws: Math.random()*.022+.005,
+      warm:Math.random()>.5
+    };
+  }
+  var smokes = [];
+  for(var i=0;i<55;i++){ var s=newSmoke(); s.y=Math.random()*H; s.life=Math.random(); smokes.push(s); }
+
+  // ── waves ──
+  var waves = [];
+  for(var i=0;i<7;i++) waves.push({
+    y: Math.random()*H,
+    vy:-(Math.random()*.3+.06),
+    phase:Math.random()*Math.PI*2,
+    amp:Math.random()*55+18,
+    freq:Math.random()*.004+.001,
+    al:Math.random()*.07+.025,
+    lw:Math.random()*1.4+.4,
+    warm:Math.random()>.5
+  });
+
+  var tt = 0;
+
+  function frame(){
+    ct.clearRect(0,0,W,H);
+    tt += .009;
+
+    // dark warm bg
+    var bg = ct.createRadialGradient(W*.5,H*.35,0, W*.5,H*.5,W*.88);
+    bg.addColorStop(0,'rgba(20,8,2,.97)');
+    bg.addColorStop(.55,'rgba(10,10,10,.99)');
+    bg.addColorStop(1,'#080808');
+    ct.fillStyle=bg; ct.fillRect(0,0,W,H);
+
+    // grid
+    ct.strokeStyle='rgba(249,115,22,.02)'; ct.lineWidth=1;
+    for(var x=0;x<W;x+=88){ ct.beginPath();ct.moveTo(x,0);ct.lineTo(x,H);ct.stroke(); }
+    for(var y=0;y<H;y+=88){ ct.beginPath();ct.moveTo(0,y);ct.lineTo(W,y);ct.stroke(); }
+
+    // smoke
+    for(var i=0;i<smokes.length;i++){
+      var s=smokes[i];
+      s.wob+=s.ws; s.y+=s.vy; s.x+=s.vx+Math.sin(s.wob)*.4; s.life+=s.spd;
+      if(s.y < -s.r*2 || s.life > 1){ smokes[i]=newSmoke(); continue; }
+      var fade = s.life<.25 ? s.life/.25 : s.life>.72 ? (1-s.life)/.28 : 1;
+      var col  = s.warm ? '249,115,22' : '251,146,60';
+      var g = ct.createRadialGradient(s.x,s.y,0, s.x,s.y,s.r);
+      g.addColorStop(0,'rgba('+col+','+s.a*fade+')');
+      g.addColorStop(.45,'rgba('+col+','+(s.a*fade*.28)+')');
+      g.addColorStop(1,'rgba('+col+',0)');
+      ct.fillStyle=g; ct.beginPath(); ct.arc(s.x,s.y,s.r,0,Math.PI*2); ct.fill();
+    }
+
+    // waves
+    for(var i=0;i<waves.length;i++){
+      var w=waves[i];
+      w.y+=w.vy; w.phase+=.013;
+      if(w.y < -80){ w.y=H+60; w.phase=Math.random()*Math.PI*2; w.vy=-(Math.random()*.3+.06); }
+      var col = w.warm ? '249,115,22' : '251,146,60';
+      ct.beginPath();
+      ct.strokeStyle='rgba('+col+','+w.al+')'; ct.lineWidth=w.lw;
+      for(var x=0;x<=W;x+=5){
+        var yw = w.y + Math.sin(x*w.freq+w.phase+tt)*w.amp + Math.sin(x*w.freq*.5+w.phase*1.3)*w.amp*.4;
+        x===0 ? ct.moveTo(x,yw) : ct.lineTo(x,yw);
+      }
+      ct.stroke();
+      // harmonic
+      ct.beginPath();
+      ct.strokeStyle='rgba('+col+','+(w.al*.4)+')'; ct.lineWidth=w.lw*.5;
+      for(var x=0;x<=W;x+=5){
+        var yw = w.y + Math.sin(x*w.freq*1.3+w.phase*1.2+tt*1.1)*w.amp*.55;
+        x===0 ? ct.moveTo(x,yw) : ct.lineTo(x,yw);
+      }
+      ct.stroke();
+    }
+
+    // hero glow
+    var og=ct.createRadialGradient(W*.5,H*.4,0,W*.5,H*.4,500);
+    og.addColorStop(0,'rgba(249,115,22,.05)'); og.addColorStop(1,'transparent');
+    ct.fillStyle=og; ct.fillRect(0,0,W,H);
+
+    // particles
+    for(var i=0;i<pts.length;i++){
+      var p=pts[i];
+      var dx=mo.x-p.x, dy=mo.y-p.y, d=Math.sqrt(dx*dx+dy*dy);
+      if(d<190){ p.vx+=dx/d*.006; p.vy+=dy/d*.006; }
+      p.vx*=.986; p.vy*=.986;
+      p.x+=p.vx; p.y+=p.vy;
+      if(p.x<0)p.x=W; if(p.x>W)p.x=0; if(p.y<0)p.y=H; if(p.y>H)p.y=0;
+      ct.beginPath(); ct.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ct.fillStyle='rgba(249,115,22,'+p.a*.42+')'; ct.fill();
+    }
+    for(var i=0;i<pts.length;i++) for(var j=i+1;j<pts.length;j++){
+      var dx=pts[i].x-pts[j].x, dy=pts[i].y-pts[j].y, d=Math.sqrt(dx*dx+dy*dy);
+      if(d<115){
+        ct.beginPath();
+        ct.strokeStyle='rgba(249,115,22,'+((1-d/115)*.06)+')'; ct.lineWidth=.5;
+        ct.moveTo(pts[i].x,pts[i].y); ct.lineTo(pts[j].x,pts[j].y); ct.stroke();
+      }
+    }
+
+    // mouse glow
+    var mg=ct.createRadialGradient(mo.x,mo.y,0,mo.x,mo.y,220);
+    mg.addColorStop(0,'rgba(249,115,22,.06)'); mg.addColorStop(1,'transparent');
+    ct.fillStyle=mg; ct.fillRect(0,0,W,H);
+
+    requestAnimationFrame(frame);
+  }
+  frame();
+})();
+
+// ================================================================
+// PRICING TABS
+// ================================================================
+function showP(id,btn){
+  document.querySelectorAll('.psec').forEach(function(s){s.classList.remove('active');});
+  document.querySelectorAll('.ptab').forEach(function(t){t.classList.remove('active');});
+  document.getElementById('ps-'+id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ================================================================
+// SERVICE CARD TILT
+// ================================================================
+document.querySelectorAll('.sc').forEach(function(c){
+  c.addEventListener('mousemove',function(e){
+    var r=c.getBoundingClientRect();
+    var x=(e.clientX-r.left)/r.width-.5;
+    var y=(e.clientY-r.top)/r.height-.5;
+    c.style.transform='perspective(700px) rotateY('+(x*12)+'deg) rotateX('+(-y*9)+'deg) translateY(-8px)';
+  });
+  c.addEventListener('mouseleave',function(){ c.style.transform=''; });
+});
+
+// ================================================================
+// SCROLL REVEAL
+// ================================================================
+window.addEventListener('load', function(){
+  document.querySelectorAll('.reveal').forEach(function(el){
+    var obs = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){
+          el.style.opacity='1';
+          el.style.transform='translateY(0)';
+          obs.unobserve(el);
+        }
+      });
+    }, {threshold:0, rootMargin:'0px 0px -30px 0px'});
+    el.style.opacity='0';
+    el.style.transform='translateY(28px)';
+    el.style.transition='opacity .7s ease, transform .7s ease';
+    obs.observe(el);
+  });
+});
+
+// ================================================================
+// FORM
+// ================================================================
+function doSend(){
+  var fn=document.getElementById('fn').value.trim();
+  var em=document.getElementById('em').value.trim();
+  var ph=document.getElementById('ph').value.trim();
+  if(!fn){alert('Please enter your name.');return;}
+  if(!em||em.indexOf('@')<0){alert('Please enter a valid email.');return;}
+  if(!ph){alert('Please enter your WhatsApp number.');return;}
+  document.getElementById('fok').style.display='block';
+  var b=document.querySelector('.fsub');
+  b.textContent='Sent!'; b.disabled=true; b.style.opacity='.6';
+}
+</script>
+</body>
+</html>
